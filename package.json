@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Noms&Bits API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "SamRB-dev",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.20"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "SQL"
+  ]
+}
