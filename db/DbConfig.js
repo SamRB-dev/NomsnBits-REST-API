@@ -24,12 +24,12 @@ class DBHandler {
   #DBConnect() {
     let handler = this.#MainHandler;
     handler.connect((error) => {
-        if (error) throw error.message;
+      if (error) throw error.message;
     });
     console.log("Connected");
   }
 
-  GetMainHandler(){
+  GetMainHandler() {
     this.#CreateConnection();
     this.#DBConnect();
     return this.#MainHandler;
@@ -37,5 +37,5 @@ class DBHandler {
 }
 
 // Instantiation
-let handler = new DBHandler()
+let handler = new DBHandler();
 module.exports = handler.GetMainHandler();

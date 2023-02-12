@@ -12,11 +12,11 @@ router.get("/", async (request, response) => {
 });
 
 router.get("/users", async (request, response) => {
-  await db.query("SELECT * FROM users", (error,data) => {
+  await db.query("SELECT * FROM users", (error, data) => {
     if (error) throw error.message;
     response.json({
-      status:200,
-      data:data
+      status: 200,
+      data: data,
     });
   });
 });
