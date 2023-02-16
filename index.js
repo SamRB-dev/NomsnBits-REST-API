@@ -1,27 +1,26 @@
 // Imports
 const bodyParser = require("body-parser");
 const express = require("express");
-require("dotenv").config();
-const usersRouter = require("./routes/getUsers");
-
-// Constants
-const PORT = process.env.PORT;
+const apiRouter = require("./routes/api");
 
 // Entry Point
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use("/users",usersRouter);
+app.use("/api", apiRouter);
 
 // All Routes
-app.get("/", (request, response) => {
-  response.send("Noms&Bits API v1.0");
+app.get("/", async (request, response) => {
+  await response.status(200).json({
+    status: 200,
+    name: "Noms&Bits API v1.0",
+  });
 });
 
 // Starting the Server
 try {
-  app.listen(PORT, () => {
+  app.listen(8080, () => {
     console.log("Server Started......");
   });
 } catch (err) {
