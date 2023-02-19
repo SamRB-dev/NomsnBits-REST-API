@@ -47,7 +47,7 @@ router.post("/register", async (request, response) => {
 // User data retrieval
 router.get("/user/:username", async (request, response) => {
   await db.query(
-    `SELECT username, email, password, registration_date FROM users WHERE username='${request.params.username}'`,
+    `SELECT username, email, password, registration_date FROM users WHERE username='${request.params.username};'`,
     (error, data) => {
       if (error) {
         response.json({
@@ -63,24 +63,55 @@ router.get("/user/:username", async (request, response) => {
   );
 });
 
-
 // Deleting the User
 router.delete("/user/:username", async (request, response) => {
   await db.query(
-    `DELETE FROM users WHERE username='${request.params.username}'`,  (error,dataResponse) => {
+    `DELETE FROM users WHERE username='${request.params.username};'`,
+    (error, dataResponse) => {
       if (error) {
         response.json({
           status: 500,
-          message: "Internal Server Error"
+          message: "Internal Server Error",
         });
       }
 
       response.json({
         status: 200,
-        message: 'User data has been deleted'
+        message: "User data has been deleted",
       });
     }
   );
 });
+
+// Update username
+router.put("/user/:username/update/:newuname", async (request, response) => {
+  let newUname = request.params.newuname;
+  console.log(request.body);
+  await db.query(
+    `UPDATE users SET username = '${newUname}' WHERE username='${request.params.username}';`,
+    (error, dataResponse) => {
+      if (error) {
+        response.json({
+          status: 500,
+          message: "Internal Server Error",
+        });
+      }
+
+      response.json({
+        status: 200,
+        message: "Successfully Updated the Username",
+      });
+    }
+  );
+});
+
+// Update User Password - ToDo
+router.put(
+  "/user/:username/update/:newpasswd",
+  async (request, response) => {}
+);
+// Update User Email - ToDo
+// Login & Authorization - ToDo
+
 // Exporting the router
 module.exports = router;
