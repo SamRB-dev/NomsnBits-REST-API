@@ -84,32 +84,57 @@ router.delete("/user/:username", async (request, response) => {
 });
 
 // Update username
-router.put("/user/:username/update/:newuname", async (request, response) => {
-  let newUname = request.params.newuname;
-  console.log(request.body);
-  await db.query(
-    `UPDATE users SET username = '${newUname}' WHERE username='${request.params.username}';`,
-    (error, dataResponse) => {
-      if (error) {
+router.put(
+  "/user/:username/update-uname/:newuname",
+  async (request, response) => {
+    let newUname = request.params.newuname;
+    await db.query(
+      `UPDATE users SET username = '${newUname}' WHERE username='${request.params.username}';`,
+      (error, dataResponse) => {
+        if (error) {
+          response.json({
+            status: 500,
+            message: "Internal Server Error",
+          });
+        }
+
         response.json({
-          status: 500,
-          message: "Internal Server Error",
+          status: 200,
+          message: "Successfully Updated the Username",
         });
       }
-
-      response.json({
-        status: 200,
-        message: "Successfully Updated the Username",
-      });
-    }
-  );
-});
+    );
+  }
+);
 
 // Update User Password - ToDo
 router.put(
-  "/user/:username/update/:newpasswd",
-  async (request, response) => {}
+  "/user/:username/update-passwd/:newpasswd",
+  async (request, response) => {
+    let newPasswd = request.params.newpasswd;
+
+    // Hashing & Salting
+    let salt = await bcrypt.genSalt(8);
+    let passHash = await bcrypt.hash(newPasswd, salt);
+
+    await db.query(
+      `UPDATE users SET password='${passHash}', salt='${salt}' WHERE username='${request.params.username}';`,
+      (error, dataResponse) => {
+        if (error) {
+          response.json({
+            status: 500,
+            message: "Internal Server Error",
+          });
+        }
+        response.json({
+          status: 200,
+          message: "Successfully Updated Password",
+        });
+      }
+    );
+  }
 );
+
 // Update User Email - ToDo
 // Login & Authorization - ToDo
 
