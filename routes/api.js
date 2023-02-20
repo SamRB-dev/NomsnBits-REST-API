@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db/DbConfig");
 const bcrypt = require("bcrypt");
+const { response } = require("express");
 
 // Handling Request - Functional Approach
 router.get("/", async (request, response) => {
@@ -13,7 +14,7 @@ router.get("/", async (request, response) => {
 });
 
 // User Registration
-router.post("/register", async (request, response) => {
+router.post("/auth/register", async (request, response) => {
   // const { uname, email, passwd, date } = request.body;
   let uname = request.body.username;
   let email = request.body.email;
@@ -38,7 +39,7 @@ router.post("/register", async (request, response) => {
 
       response.json({
         status: 200,
-        message: "success",
+        message: "Successfully Registered the Account",
       });
     }
   );
@@ -47,7 +48,7 @@ router.post("/register", async (request, response) => {
 // User data retrieval
 router.get("/user/:username", async (request, response) => {
   await db.query(
-    `SELECT username, email, password, registration_date FROM users WHERE username='${request.params.username};'`,
+    `SELECT username, email, password, registration_date FROM users WHERE username='${request.params.username}';`,
     (error, data) => {
       if (error) {
         response.json({
@@ -136,6 +137,31 @@ router.put(
 );
 
 // Update User Email - ToDo
+router.put(
+  "/user/:username/update-email/:newemail",
+  async (request, response) => {
+    let newEmail = request.params.newemail;
+    console.log(newEmail);
+    console.log(request.params.username);
+    await db.query(
+      `UPDATE users SET email = '${newEmail}' WHERE username='${request.params.username}';`,
+      (error, dataResponse) => {
+        if (error) {
+          response.json({
+            status: 500,
+            message: "Internal Server Error"
+          });
+        }
+
+        response.json({
+          status: 200,
+          message: "Successfully Changed the Login Email",
+        });
+      }
+    );
+  }
+);
+
 // Login & Authorization - ToDo
 
 // Exporting the router
