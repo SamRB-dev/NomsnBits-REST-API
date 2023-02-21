@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db/DbConfig");
 const bcrypt = require("bcrypt");
-const { response } = require("express");
 
 // Handling Request - Functional Approach
 router.get("/", async (request, response) => {
@@ -47,7 +46,7 @@ router.post("/auth/register", async (request, response) => {
 
 // User data retrieval
 router.get("/user/:username", async (request, response) => {
-  await db.query(
+  db.query(
     `SELECT username, email, password, registration_date FROM users WHERE username='${request.params.username}';`,
     (error, data) => {
       if (error) {
@@ -149,7 +148,7 @@ router.put(
         if (error) {
           response.json({
             status: 500,
-            message: "Internal Server Error"
+            message: "Internal Server Error",
           });
         }
 
