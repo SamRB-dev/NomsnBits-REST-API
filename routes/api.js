@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 router.get("/", async (request, response) => {
   await response.json({
     status: 200,
-    message: "OK",
+    message: "API Connection - OK",
   });
 });
 
