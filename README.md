@@ -2,6 +2,13 @@
 This is a RESTful API built with Node.js, Express.js and PostgreSQL that provides registration, user data retrieval, user deletion and other functionalities for the Noms&Bits web application.
 
 
+## API URL
+```
+  https://nomsnbits-rest-api.onrender.com
+```
+- Deployed in [Render](https://render.com/)
+
+
 ## ToDo 
 - Login & Authorization
 
